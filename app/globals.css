@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #5b7cfa;
+  --secondary: #8a54ff;
+  --accent: #00c2a8;
+  --background-light: #f7f8fc;
+  --background-dark: #090b16;
+  --foreground-light: #111827;
+  --foreground-dark: #f9fafb;
+  --radius: 18px;
+  --section-spacing: 120px;
+  --container-width: 1200px;
+  --shadow-intensity: 0.65;
+  --font-size: 16px;
+  --heading-scale: 1.2;
+  --motion-speed: 1;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-primary), system-ui, sans-serif;
+  font-size: var(--font-size);
+  background: var(--background);
+  color: var(--foreground);
+  transition: background-color calc(400ms * var(--motion-speed)) ease,
+    color calc(400ms * var(--motion-speed)) ease;
+}
+
+body[dir='rtl'] {
+  font-family: var(--font-arabic), var(--font-primary), sans-serif;
+}
+
+:root,
+.light {
+  --background: var(--background-light);
+  --foreground: var(--foreground-light);
+}
+
+.dark {
+  --background: var(--background-dark);
+  --foreground: var(--foreground-dark);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: calc(3rem * var(--heading-scale));
+}
+
+h2 {
+  font-size: calc(2rem * var(--heading-scale));
+}
+
+.container-shell {
+  width: min(100% - 2rem, var(--container-width));
+  margin-inline: auto;
+}
