@@ -62,6 +62,19 @@ Default admin credentials after seed:
 - Email: `admin@studio.com`
 - Password: `Admin@123`
 
+## Vercel Deployment (important)
+- This repo includes `vercel.json` forcing a production build command:
+  - `npm run vercel-build` → `prisma generate && next build`
+- If Vercel still runs `npm run dev`, open Project Settings → Build & Development Settings:
+  - **Build Command**: `npm run vercel-build`
+  - **Install Command**: `npm install`
+  - **Output Directory**: leave empty for Next.js
+- Required Vercel env vars:
+  - `DATABASE_URL`
+  - `NEXTAUTH_SECRET`
+  - `NEXTAUTH_URL` (your deployed URL)
+  - `NEXT_PUBLIC_SITE_URL`
+
 ## Production / VPS (Hostinger compatible)
 1. Provision Ubuntu VPS with Node 20+, PostgreSQL 15+, Nginx.
 2. Clone repo and configure `.env` with production credentials.
@@ -81,4 +94,3 @@ Default admin credentials after seed:
 - Typography: font family, base size, heading scale.
 - Dark mode controls: enabled/default/system.
 - Advanced controls: button radius, section spacing, container width, shadow intensity, animation speed.
-

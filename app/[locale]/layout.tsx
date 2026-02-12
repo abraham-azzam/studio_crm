@@ -7,6 +7,8 @@ import { isRtl, Locale, locales } from '@/lib/i18n';
 import { getSiteSettings, getThemeSettings } from '@/lib/cms';
 import { createThemeCssVariables, defaultTheme } from '@/lib/theme';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
   const settings = await getSiteSettings();

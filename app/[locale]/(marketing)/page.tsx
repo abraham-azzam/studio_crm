@@ -4,6 +4,8 @@ import { localize } from '@/lib/cms';
 import { Locale } from '@/lib/i18n';
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 const fallback = {
   en: {
     title: 'Building magnetic brands and digital products with world-class craft.',
@@ -17,10 +19,56 @@ const fallback = {
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
-  const [home, services] = await Promise.all([
-    prisma.page.findUnique({ where: { slug: 'home' } }),
-    prisma.service.findMany({ where: { published: true }, take: 3, orderBy: { createdAt: 'desc' } })
-  ]);
+
+  let home: {
+    titleEn: string;
+    titleAr: string;
+    excerptEn: string | null;
+    excerptAr: string | null;
+    contentEn: string;
+    contentAr: string;
+  } | null = null;
+
+  let services: Array<{
+    titleEn: string;
+    titleAr: string;
+    excerptEn: string | null;
+    excerptAr: string | null;
+    bodyEn: string;
+    bodyAr: string;
+  }> = [];
+
+  try {
+    [home, services] = await Promise.all([
+      prisma.page.findUnique({
+        where: { slug: 'home' },
+        select: {
+          titleEn: true,
+          titleAr: true,
+          excerptEn: true,
+          excerptAr: true,
+          contentEn: true,
+          contentAr: true
+        }
+      }),
+      prisma.service.findMany({
+        where: { published: true },
+        take: 3,
+        orderBy: { createdAt: 'desc' },
+        select: {
+          titleEn: true,
+          titleAr: true,
+          excerptEn: true,
+          excerptAr: true,
+          bodyEn: true,
+          bodyAr: true
+        }
+      })
+    ]);
+  } catch {
+    home = null;
+    services = [];
+  }
 
   const title = home ? localize(locale, home.titleEn, home.titleAr) : fallback[locale].title;
   const subtitle = home
