@@ -1,13 +1,16 @@
 import { prisma } from '@/lib/prisma';
+import { hasDatabaseUrl } from '@/lib/env';
 
 export default async function AdminDashboardPage() {
-  const [pages, services, projects, posts, media] = await Promise.all([
-    prisma.page.count(),
-    prisma.service.count(),
-    prisma.project.count(),
-    prisma.post.count(),
-    prisma.media.count()
-  ]);
+  const [pages, services, projects, posts, media] = hasDatabaseUrl
+    ? await Promise.all([
+        prisma.page.count(),
+        prisma.service.count(),
+        prisma.project.count(),
+        prisma.post.count(),
+        prisma.media.count()
+      ])
+    : [0, 0, 0, 0, 0];
 
   const stats = [
     ['Pages', pages],

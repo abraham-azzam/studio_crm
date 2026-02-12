@@ -1,7 +1,8 @@
 import { prisma } from '@/lib/prisma';
+import { hasDatabaseUrl } from '@/lib/env';
 
 export default async function AdminMediaPage() {
-  const media = await prisma.media.findMany({ orderBy: { createdAt: 'desc' } });
+  const media = hasDatabaseUrl ? await prisma.media.findMany({ orderBy: { createdAt: 'desc' } }) : [];
 
   return (
     <div>

@@ -1,7 +1,8 @@
 import { prisma } from '@/lib/prisma';
+import { hasDatabaseUrl } from '@/lib/env';
 
 export default async function AdminSiteSettings() {
-  const settings = await prisma.siteSettings.findFirst();
+  const settings = hasDatabaseUrl ? await prisma.siteSettings.findFirst() : null;
 
   return (
     <div>

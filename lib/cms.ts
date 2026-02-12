@@ -1,7 +1,9 @@
 import { prisma } from '@/lib/prisma';
 import { Locale } from '@/lib/i18n';
+import { hasDatabaseUrl } from '@/lib/env';
 
 export const getSiteSettings = async () => {
+  if (!hasDatabaseUrl) return null;
   try {
     return await prisma.siteSettings.findFirst();
   } catch {
@@ -10,6 +12,7 @@ export const getSiteSettings = async () => {
 };
 
 export const getThemeSettings = async () => {
+  if (!hasDatabaseUrl) return null;
   try {
     return await prisma.themeSettings.findFirst();
   } catch {
@@ -18,6 +21,7 @@ export const getThemeSettings = async () => {
 };
 
 export const getPublishedPages = async () => {
+  if (!hasDatabaseUrl) return [];
   try {
     return await prisma.page.findMany({
       where: { published: true },
