@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+}
+
+enum ThemeMode {
+  light
+  dark
+  system
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(ADMIN)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleEn     String
+  titleAr     String
+  excerptEn   String?
+  excerptAr   String?
+  contentEn   String
+  contentAr   String
+  seoTitleEn  String?
+  seoTitleAr  String?
+  seoDescEn   String?
+  seoDescAr   String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleEn     String
+  titleAr     String
+  excerptEn   String?
+  excerptAr   String?
+  bodyEn      String
+  bodyAr      String
+  icon        String?
+  seoTitleEn  String?
+  seoTitleAr  String?
+  seoDescEn   String?
+  seoDescAr   String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleEn     String
+  titleAr     String
+  summaryEn   String
+  summaryAr   String
+  bodyEn      String
+  bodyAr      String
+  coverImage  String?
+  seoTitleEn  String?
+  seoTitleAr  String?
+  seoDescEn   String?
+  seoDescAr   String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleEn     String
+  titleAr     String
+  excerptEn   String?
+  excerptAr   String?
+  bodyEn      String
+  bodyAr      String
+  coverImage  String?
+  seoTitleEn  String?
+  seoTitleAr  String?
+  seoDescEn   String?
+  seoDescAr   String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Media {
+  id          String   @id @default(cuid())
+  path        String
+  altEn       String?
+  altAr       String?
+  mimeType    String?
+  size        Int?
+  createdAt   DateTime @default(now())
+}
+
+model ThemeSettings {
+  id              String    @id @default(cuid())
+  primaryColor    String
+  secondaryColor  String
+  accentColor     String
+  backgroundLight String
+  backgroundDark  String
+  textLight       String
+  textDark        String
+  logoLight       String
+  logoDark        String
+  favicon         String
+  logoSize        Int       @default(140)
+  fontFamily      String    @default("Inter")
+  baseFontSize    Int       @default(16)
+  headingScale    Float     @default(1.2)
+  darkModeEnabled Boolean   @default(true)
+  defaultMode     ThemeMode @default(system)
+  systemMode      Boolean   @default(true)
+  buttonRadius    Int       @default(18)
+  sectionSpacing  Int       @default(120)
+  containerWidth  Int       @default(1200)
+  shadowIntensity Float     @default(0.65)
+  animationSpeed  Float     @default(1)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model SiteSettings {
+  id             String   @id @default(cuid())
+  siteName       String
+  siteNameAr     String
+  taglineEn      String
+  taglineAr      String
+  defaultLocale  String   @default("en")
+  contactEmail   String
+  contactPhone   String?
+  footerTextEn   String
+  footerTextAr   String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
