@@ -65,7 +65,9 @@ Default admin credentials after seed:
 ## Vercel Deployment (important)
 - This repo includes `vercel.json` forcing a production build command:
   - `npm run vercel-build` → `prisma generate && next build`
-- If Vercel still runs `npm run dev`, open Project Settings → Build & Development Settings:
+- `package.json` is also hardened so `npm run build` runs Prisma generation before Next build.
+- Safety fallback: if Vercel is misconfigured and executes `npm run dev`, the `dev` script detects `VERCEL/CI` and runs a production build instead of starting a dev server.
+- In Vercel Project Settings → Build & Development Settings set:
   - **Build Command**: `npm run vercel-build`
   - **Install Command**: `npm install`
   - **Output Directory**: leave empty for Next.js

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 type Field = { key: string; label: string; type?: 'text' | 'textarea' | 'checkbox' };
 
@@ -15,20 +15,20 @@ export function CrudTable({
 }) {
   const [items, setItems] = useState<Record<string, unknown>[]>([]);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     const res = await fetch(endpoint);
     const data = await res.json();
     setItems(data.items ?? []);
-  };
+  }, [endpoint]);
 
   useEffect(() => {
     void load();
-  }, [endpoint]);
+  }, [load]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
+    const payload: Record<string, unknown> = Object.fromEntries(formData.entries());
 
     fields.forEach((field) => {
       if (field.type === 'checkbox') {

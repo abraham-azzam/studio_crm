@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+  --font-primary: 'Inter';
+  --font-arabic: 'Tajawal';
   --primary: #5b7cfa;
   --secondary: #8a54ff;
   --accent: #00c2a8;
